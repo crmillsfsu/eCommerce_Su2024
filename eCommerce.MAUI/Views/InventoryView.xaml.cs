@@ -6,4 +6,9 @@ public partial class InventoryView : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void CancelClicked(object sender, EventArgs e)
+    {
+		Shell.Current.GoToAsync("//MainPage");
+    }
 }
