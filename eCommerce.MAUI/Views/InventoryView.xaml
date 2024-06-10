@@ -4,6 +4,9 @@
              x:Class="eCommerce.MAUI.Views.InventoryView"
              Title="InventoryView">
     <VerticalStackLayout>
+        <ListView
+            ItemsSource="{Binding Products}"
+            />
         <Button
             Text="Cancel"
             Clicked="CancelClicked"
