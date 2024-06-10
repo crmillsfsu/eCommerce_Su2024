@@ -4,9 +4,9 @@
              x:Class="eCommerce.MAUI.Views.ShopView"
              Title="ShopView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Button
+            Text="Cancel"
+            Clicked="CancelClicked"
+            />
     </VerticalStackLayout>
 </ContentPage>
