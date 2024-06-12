@@ -14,4 +14,14 @@ public partial class InventoryView : ContentPage
     {
 		Shell.Current.GoToAsync("//MainPage");
     }
+
+    private void AddClicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//Product");
+    }
+
+    private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        (BindingContext as InventoryViewModel)?.Refresh();
+    }
 }
