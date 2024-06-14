@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="eCommerce.MAUI.Views.ProductView"
              Title="ProductView"
+             NavigatedTo="ContentPage_NavigatedTo"
              >
     <VerticalStackLayout>
         <Grid>

@@ -2,8 +2,50 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="eCommerce.MAUI.Views.ShopView"
-             Title="ShopView">
+             Title="ShopView"
+             NavigatedTo="ContentPage_NavigatedTo"
+             >
     <VerticalStackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ListView
+                    ItemsSource="{Binding Products}"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0" Text="{Binding Model.Id}"/>
+                                    <Label Grid.Column="1" Text="{Binding DisplayPrice}"/>
+                                    <Label Grid.Column="2" Text="{Binding Model.Name}"/>
+                                    <Label Grid.Column="3" Text="{Binding Model.Quantity}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            
+        </Grid>
         <Button
             Text="Cancel"
             Clicked="CancelClicked"
