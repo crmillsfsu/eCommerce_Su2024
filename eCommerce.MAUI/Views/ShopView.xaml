@@ -14,14 +14,26 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
+                    <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0"
+                      Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Entry Grid.Column="0" Text="{Binding InventoryQuery}"/>
+                    <Button Grid.Column="1" Text="Search" Clicked="InventorySearchClicked"/>
+                </Grid>
+                
                 <ListView
                     ItemsSource="{Binding Products}"
                     Grid.Column="0"
-                    Grid.Row="0"
+                    Grid.Row="1"
                     >
                     <ListView.ItemTemplate>
                         <DataTemplate>
