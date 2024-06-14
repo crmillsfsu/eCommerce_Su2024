@@ -17,6 +17,10 @@
         ContentTemplate="{DataTemplate views:InventoryView}"
         Route="Inventory" />
     <ShellContent
+        Title="Product"
+        ContentTemplate="{DataTemplate views:ProductView}"
+        Route="Product" />
+    <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate views:ShopView}"
         Route="Shop" />
