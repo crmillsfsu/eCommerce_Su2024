@@ -1,4 +1,5 @@
-﻿using Amazon.Library.Services;
+﻿using Amazon.Library.Models;
+using Amazon.Library.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,15 +36,27 @@ namespace eCommerce.MAUI.ViewModels
             }
         }
 
+        //private Product productToBuy;
+        public Product ProductToBuy { get; set; } = new Product();
+
+        public ShoppingCart Cart { get; set; }
+
         public void Refresh()
         {
             InventoryQuery = string.Empty;
             NotifyPropertyChanged(nameof(Products));
+            NotifyPropertyChanged(nameof(ProductToBuy));
         }
 
         public void Search()
         {
             NotifyPropertyChanged(nameof(Products));
+        }
+
+        public void PlaceInCart()
+        {
+            //remove from Inventory
+            //add to Cart
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

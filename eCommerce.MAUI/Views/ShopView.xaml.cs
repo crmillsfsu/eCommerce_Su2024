@@ -24,4 +24,9 @@ public partial class ShopView : ContentPage
     {
         (BindingContext as ShopViewModel).Search();
     }
+
+    private void PlaceInCartClicked(object sender, EventArgs e)
+    {
+        (BindingContext as ShopViewModel).PlaceInCart();
+    }
 }
