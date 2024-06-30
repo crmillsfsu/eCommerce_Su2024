@@ -8,28 +8,39 @@ using System.Threading.Tasks;
 
 namespace Amazon.Library.Services
 {
-    public class ShoppingCartService
+    public class ShoppingCartServiceProxy
     {
-        private static ShoppingCartService? instance;
+        private static ShoppingCartServiceProxy? instance;
         private static object instanceLock = new object();
 
-        public ReadOnlyCollection<ShoppingCart> carts;
+        private List<ShoppingCart> carts;
+        public ReadOnlyCollection<ShoppingCart> Carts
+        {
+            get
+            {
+                return carts.AsReadOnly();
+            }
+        }
 
         public ShoppingCart Cart
         {
             get
             {
-                if(carts == null || !carts.Any())
+                if(!carts.Any())
                 {
-                    return new ShoppingCart();
+                    var newCart = new ShoppingCart();
+                    carts.Add(newCart);
+                    return newCart;
                 }
                 return carts?.FirstOrDefault() ?? new ShoppingCart();
             }
         }
 
-        private ShoppingCartService() { }
+        private ShoppingCartServiceProxy() { 
+            carts = new List<ShoppingCart>();
+        }
 
-        public static ShoppingCartService Current
+        public static ShoppingCartServiceProxy Current
         {
             get
             {
@@ -37,7 +48,7 @@ namespace Amazon.Library.Services
                 {
                     if (instance == null)
                     {
-                        instance = new ShoppingCartService();
+                        instance = new ShoppingCartServiceProxy();
                     }
                 }
                 return instance;
@@ -74,7 +85,7 @@ namespace Amazon.Library.Services
             } else
             {
                 //add
-                Cart.Contents.Add(newProduct);
+                Cart?.Contents?.Add(newProduct);
             }
         }
 
