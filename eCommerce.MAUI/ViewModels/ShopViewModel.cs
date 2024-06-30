@@ -36,16 +36,49 @@ namespace eCommerce.MAUI.ViewModels
             }
         }
 
-        //private Product productToBuy;
-        public Product ProductToBuy { get; set; } = new Product();
+        public List<ProductViewModel> ProductsInCart
+        {
+            get
+            {
+                return ShoppingCartServiceProxy.Current?.Cart?.Contents?.Where(p => p != null)
+                    .Where(p => p?.Name?.ToUpper()?.Contains(InventoryQuery.ToUpper()) ?? false)
+                    .Select(p => new ProductViewModel(p)).ToList()
+                    ?? new List<ProductViewModel>();
+            }
+        }
 
-        public ShoppingCart Cart { get; set; }
+        //private Product productToBuy;
+        private ProductViewModel? productToBuy;
+        public ProductViewModel? ProductToBuy {
+            get => productToBuy;
+
+            set
+            {
+                productToBuy = value;
+                
+                if(productToBuy != null && productToBuy.Model == null)
+                {
+                    productToBuy.Model = new Product();
+                } else if(productToBuy != null && productToBuy.Model != null) {
+                    productToBuy.Model = new Product(productToBuy.Model);
+                }
+
+                //NotifyPropertyChanged();
+            }
+        }
+
+        public ShoppingCart Cart { 
+            get
+            {
+                return ShoppingCartServiceProxy.Current.Cart;
+            }
+        }
+
 
         public void Refresh()
         {
             InventoryQuery = string.Empty;
             NotifyPropertyChanged(nameof(Products));
-            NotifyPropertyChanged(nameof(ProductToBuy));
         }
 
         public void Search()
@@ -55,8 +88,17 @@ namespace eCommerce.MAUI.ViewModels
 
         public void PlaceInCart()
         {
-            //remove from Inventory
-            //add to Cart
+            if(ProductToBuy?.Model == null)
+            {
+                return;
+            }
+            //ProductToBuy.Model = new Product(ProductToBuy.Model);
+            ProductToBuy.Model.Quantity = 1;
+            ShoppingCartServiceProxy.Current.AddToCart(ProductToBuy.Model);
+
+            ProductToBuy = null;
+            NotifyPropertyChanged(nameof(ProductsInCart));
+            NotifyPropertyChanged(nameof(Products));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
