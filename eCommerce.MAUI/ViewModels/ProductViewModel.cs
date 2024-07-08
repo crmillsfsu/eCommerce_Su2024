@@ -1,5 +1,6 @@
 ﻿using Amazon.Library.Models;
 using Amazon.Library.Services;
+using eCommerce.Library.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace eCommerce.MAUI.ViewModels
             }
             return $"{Model.Id} - {Model.Name} - {Model.Price:C}";
         }
-        public Product? Model { get; set; }
+        public ProductDTO? Model { get; set; }
 
         public string DisplayPrice
         {
@@ -48,10 +49,10 @@ namespace eCommerce.MAUI.ViewModels
 
         public ProductViewModel()
         {
-            Model = new Product();
+            Model = new ProductDTO();
         }
 
-        public ProductViewModel(Product? model)
+        public ProductViewModel(ProductDTO? model)
         {
             if(model != null)
             {
@@ -59,7 +60,7 @@ namespace eCommerce.MAUI.ViewModels
             }
             else
             {
-                Model = new Product();
+                Model = new ProductDTO();
             }
         }
 

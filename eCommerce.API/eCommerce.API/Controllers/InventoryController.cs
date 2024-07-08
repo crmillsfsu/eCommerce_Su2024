@@ -1,5 +1,6 @@
 ﻿using Amazon.Library.Models;
 using eCommerce.API.EC;
+using eCommerce.Library.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce.API.Controllers
@@ -16,9 +17,15 @@ namespace eCommerce.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<ProductDTO>> Get()
         {
             return await new InventoryEC().Get();
+        }
+
+        [HttpPost()]
+        public async Task<ProductDTO> AddOrUpdate([FromBody] ProductDTO p)
+        {
+            return await new InventoryEC().AddOrUpdate(p);
         }
     }
 }

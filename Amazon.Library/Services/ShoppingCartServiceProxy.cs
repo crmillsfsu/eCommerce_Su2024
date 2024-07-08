@@ -1,4 +1,5 @@
 ﻿using Amazon.Library.Models;
+using eCommerce.Library.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,7 +61,7 @@ namespace Amazon.Library.Services
         //    //TODO: Someone do this.
         //}
 
-        public void AddToCart(Product newProduct)
+        public void AddToCart(ProductDTO newProduct)
         {
             if(Cart == null || Cart.Contents == null)
             {

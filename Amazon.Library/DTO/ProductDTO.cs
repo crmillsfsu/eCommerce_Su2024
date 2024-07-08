@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Amazon.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,25 @@ namespace eCommerce.Library.DTO
         public int Id { get; set; }
 
         public int Quantity { get; set; }
+
+        public ProductDTO(Product p)
+        {
+            Name = p.Name;
+            Description = p.Description;
+            Price = p.Price;
+            Id = p.Id;
+            Quantity = p.Quantity;
+        }
+
+        public ProductDTO(ProductDTO p)
+        {
+            Name = p.Name;
+            Description = p.Description;
+            Price = p.Price;
+            Id = p.Id;
+            Quantity = p.Quantity;
+        }
+
+        public ProductDTO() { }
     }
 }

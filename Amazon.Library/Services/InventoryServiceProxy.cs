@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Amazon.Library.Utilities;
+using eCommerce.Library.DTO;
 
 namespace Amazon.Library.Services
 {
@@ -16,9 +17,9 @@ namespace Amazon.Library.Services
         private static InventoryServiceProxy? instance;
         private static object instanceLock = new object();
 
-        private List<Product> products;
+        private List<ProductDTO> products;
 
-        public ReadOnlyCollection<Product> Products
+        public ReadOnlyCollection<ProductDTO> Products
         {
             get
             {
@@ -26,41 +27,24 @@ namespace Amazon.Library.Services
             }
         }
 
-        private int NextId
+        
+
+        public async Task<ProductDTO> AddOrUpdate(ProductDTO p)
         {
-            get
-            {
-                if(!products.Any())
-                {
-                    return 1;
-                }
 
-                return products.Select(p => p.Id).Max() + 1;
-            }
-        }
-
-        public Product AddOrUpdate(Product p)
-        {
-            bool isAdd = false;
-            if(p.Id == 0)
-            {
-                isAdd = true;
-                p.Id = NextId;
-            }
-
-            if(isAdd)
-            {
-                products.Add(p);
-            }
-
-            return p;
+            JsonSerializerSettings settings = new JsonSerializerSettings { 
+                TypeNameHandling = TypeNameHandling.All
+            
+            };
+            var result = await new WebRequestHandler().Post("/Inventory",p);
+            return JsonConvert.DeserializeObject<ProductDTO>(result, settings);
         }
 
         private InventoryServiceProxy()
         {
             //TODO: Make a web call
             var response = new WebRequestHandler().Get("/Inventory").Result;
-            products = JsonConvert.DeserializeObject<List<Product>>(response);
+            products = JsonConvert.DeserializeObject<List<ProductDTO>>(response);
         }
 
         public static InventoryServiceProxy Current

@@ -1,5 +1,6 @@
 ﻿using Amazon.Library.Models;
 using Amazon.Library.Services;
+using eCommerce.Library.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -58,9 +59,9 @@ namespace eCommerce.MAUI.ViewModels
                 
                 if(productToBuy != null && productToBuy.Model == null)
                 {
-                    productToBuy.Model = new Product();
+                    productToBuy.Model = new ProductDTO();
                 } else if(productToBuy != null && productToBuy.Model != null) {
-                    productToBuy.Model = new Product(productToBuy.Model);
+                    productToBuy.Model = new ProductDTO(productToBuy.Model);
                 }
 
                 //NotifyPropertyChanged();
