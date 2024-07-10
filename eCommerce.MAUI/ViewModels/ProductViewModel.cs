@@ -47,9 +47,19 @@ namespace eCommerce.MAUI.ViewModels
             }
         }
 
-        public ProductViewModel()
+        public ProductViewModel(int productId = 0)
         {
-            Model = new ProductDTO();
+            if(productId == 0)
+            {
+                Model = new ProductDTO();
+            }
+            else
+            {
+                Model = InventoryServiceProxy
+                    .Current
+                    .Products.FirstOrDefault(p => p.Id == productId)
+                    ?? new ProductDTO();
+            }
         }
 
         public ProductViewModel(ProductDTO? model)
@@ -64,11 +74,11 @@ namespace eCommerce.MAUI.ViewModels
             }
         }
 
-        public void Add()
+        public async void Add()
         {
             if (Model != null)
             {
-                InventoryServiceProxy.Current.AddOrUpdate(Model);
+                Model = await InventoryServiceProxy.Current.AddOrUpdate(Model);
             }
         }
     }

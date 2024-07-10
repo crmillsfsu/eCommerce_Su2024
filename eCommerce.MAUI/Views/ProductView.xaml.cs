@@ -2,8 +2,10 @@ using eCommerce.MAUI.ViewModels;
 
 namespace eCommerce.MAUI.Views;
 
+[QueryProperty(nameof(ProductId), "productId")]
 public partial class ProductView : ContentPage
 {
+    public int ProductId { get; set; }
 	public ProductView()
 	{
 		InitializeComponent();
@@ -22,6 +24,6 @@ public partial class ProductView : ContentPage
 
     private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new ProductViewModel();
+        BindingContext = new ProductViewModel(ProductId);
     }
 }

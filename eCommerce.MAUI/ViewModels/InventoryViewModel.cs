@@ -20,8 +20,17 @@ namespace eCommerce.MAUI.ViewModels
             } 
         }
 
-        public void Refresh()
+        public ProductViewModel? SelectedProduct { get; set; }
+
+        public void Edit()
         {
+            Shell.Current.GoToAsync($"//Product?productId={SelectedProduct?.Model?.Id ?? 0}");
+            //$"//Contact?contactId={SelectedContact.Contact.Id}"
+        }
+
+        public async void Refresh()
+        {
+            await InventoryServiceProxy.Current.Get();
             NotifyPropertyChanged(nameof(Products));
         }
 

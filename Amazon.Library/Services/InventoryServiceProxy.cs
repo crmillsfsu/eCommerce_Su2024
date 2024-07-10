@@ -27,17 +27,17 @@ namespace Amazon.Library.Services
             }
         }
 
-        
+        public async Task<IEnumerable<ProductDTO>> Get() {
+            var result = await new WebRequestHandler().Get("/Inventory");
+            var deserializedResult = JsonConvert.DeserializeObject<List<ProductDTO>>(result);
+            products = deserializedResult?.ToList() ?? new List<ProductDTO>();
+            return products;
+        }
 
         public async Task<ProductDTO> AddOrUpdate(ProductDTO p)
         {
-
-            JsonSerializerSettings settings = new JsonSerializerSettings { 
-                TypeNameHandling = TypeNameHandling.All
-            
-            };
             var result = await new WebRequestHandler().Post("/Inventory",p);
-            return JsonConvert.DeserializeObject<ProductDTO>(result, settings);
+            return JsonConvert.DeserializeObject<ProductDTO>(result);
         }
 
         private InventoryServiceProxy()

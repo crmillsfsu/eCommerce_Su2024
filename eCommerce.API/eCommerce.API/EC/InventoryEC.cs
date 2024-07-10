@@ -28,6 +28,16 @@ namespace eCommerce.API.EC
             if (isAdd)
             {
                 FakeDatabase.Products.Add(new Product(p));
+            } else
+            {
+                var prodToUpdate = FakeDatabase.Products.FirstOrDefault(a => a.Id == p.Id);
+                if(prodToUpdate != null)
+                {
+                    var index = FakeDatabase.Products.IndexOf(prodToUpdate);
+                    FakeDatabase.Products.RemoveAt(index);
+                    prodToUpdate = new Product(p);
+                    FakeDatabase.Products.Insert(index, prodToUpdate);
+                }
             }
 
             return p;
