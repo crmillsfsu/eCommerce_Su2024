@@ -22,6 +22,18 @@ namespace eCommerce.API.Controllers
             return await new InventoryEC().Get();
         }
 
+        [HttpPost("Search")]
+        public async Task<IEnumerable<ProductDTO>> Get(Query query)
+        {
+            return await new InventoryEC().Search(query.QueryString);
+        }
+
+        [HttpDelete("/{id}")]
+        public async Task<ProductDTO?> Delete(int id)
+        {
+            return await new InventoryEC().Delete(id);
+        }
+
         [HttpPost()]
         public async Task<ProductDTO> AddOrUpdate([FromBody] ProductDTO p)
         {

@@ -5,6 +5,14 @@
              Title="InventoryView"
              NavigatedTo="ContentPage_NavigatedTo">
     <VerticalStackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Entry Grid.Column="0" Text="{Binding Query}"/>
+            <Button Grid.Column="1" Text="Search" Clicked="SearchClicked"/>
+        </Grid>
         <ListView
             ItemsSource="{Binding Products}"
             SelectedItem="{Binding SelectedProduct}"
@@ -34,6 +42,8 @@
         <Button Text="Add Product"
                 Clicked="AddClicked"
                 />
+        <Button Text="Delete Product"
+                Clicked="DeleteClicked"/>
         <Button
             Text="Cancel"
             Clicked="CancelClicked"

@@ -40,6 +40,33 @@ namespace Amazon.Library.Services
             return JsonConvert.DeserializeObject<ProductDTO>(result);
         }
 
+        public async Task<ProductDTO?> Delete(int id)
+        {
+            //var itemToDelete = Products.FirstOrDefault(p => p.Id == id);
+            //if(itemToDelete == null)
+            //{
+            //    return null;
+            //}
+
+            //products.Remove(itemToDelete);
+            var response = await new WebRequestHandler().Delete($"/{id}");
+            var itemToDelete = JsonConvert.DeserializeObject<ProductDTO>(response);
+            return itemToDelete;
+        }
+
+        public async Task<IEnumerable<ProductDTO>> Search(Query? query)
+        {
+            if(query == null || string.IsNullOrEmpty(query.QueryString))
+            {
+                return await Get();
+            }
+
+            var result = await new WebRequestHandler().Post("/Inventory/Search", query);
+            products = JsonConvert.DeserializeObject<List<ProductDTO>>(result) ?? new List<ProductDTO>();
+            return Products;
+        }
+
+
         private InventoryServiceProxy()
         {
             //TODO: Make a web call

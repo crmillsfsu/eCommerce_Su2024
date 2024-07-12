@@ -1,5 +1,6 @@
 ﻿using Amazon.Library.Models;
 using Amazon.Library.Services;
+using eCommerce.Library.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ namespace eCommerce.MAUI.ViewModels
 {
     public class InventoryViewModel : INotifyPropertyChanged
     {
+        public string? Query { get; set; }
         public List<ProductViewModel> Products { 
             get {
                 return InventoryServiceProxy.Current.Products.Where(p=>p != null)
@@ -25,13 +27,24 @@ namespace eCommerce.MAUI.ViewModels
         public void Edit()
         {
             Shell.Current.GoToAsync($"//Product?productId={SelectedProduct?.Model?.Id ?? 0}");
-            //$"//Contact?contactId={SelectedContact.Contact.Id}"
+        }
+
+        public async void Delete()
+        {
+            await InventoryServiceProxy.Current.Delete(SelectedProduct?.Model?.Id ?? 0);
+            Refresh();
         }
 
         public async void Refresh()
         {
-            await InventoryServiceProxy.Current.Get();
+            await InventoryServiceProxy.Current.Search(new Query(Query));
             NotifyPropertyChanged(nameof(Products));
+        }
+
+        public async void Search()
+        {
+            await InventoryServiceProxy.Current.Search(new Query(Query));
+            Refresh();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

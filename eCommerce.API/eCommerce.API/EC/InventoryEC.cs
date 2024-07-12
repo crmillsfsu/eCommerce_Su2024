@@ -16,6 +16,27 @@ namespace eCommerce.API.EC
             return FakeDatabase.Products.Take(100).Select(p => new ProductDTO(p));
         }
 
+        public async Task<IEnumerable<ProductDTO>> Search(string? query)
+        {
+            return FakeDatabase.Products.Where(p => 
+            (p?.Name != null && p.Name.ToUpper().Contains(query?.ToUpper() ?? string.Empty) )
+                || 
+            (p?.Description != null && p.Description.ToUpper().Contains(query?.ToUpper() ?? string.Empty)))
+                .Take(100).Select(p => new ProductDTO(p));
+        }
+
+        public async Task<ProductDTO?> Delete(int id)
+        {
+            var itemToDelete = FakeDatabase.Products.FirstOrDefault(p => p.Id == id);
+            if (itemToDelete == null)
+            {
+                return null;
+            }
+
+            FakeDatabase.Products.Remove(itemToDelete);
+            return new ProductDTO(itemToDelete);
+        }
+
         public async Task<ProductDTO> AddOrUpdate(ProductDTO p)
         {
             bool isAdd = false;
