@@ -23,6 +23,18 @@ namespace Amazon.Library.Services
             }
         }
 
+        public ShoppingCart AddCart(ShoppingCart cart)
+        {
+            if(cart.Id == 0)
+            {
+                cart.Id = carts.Select(c => c.Id).Max() + 1;
+            }
+
+            carts.Add(cart);
+
+            return cart;
+        }
+
 
         private ShoppingCartServiceProxy() { 
             carts = new List<ShoppingCart>() { new ShoppingCart { Id = 1, Name="My Cart" } };

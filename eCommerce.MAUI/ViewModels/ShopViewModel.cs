@@ -3,6 +3,7 @@ using Amazon.Library.Services;
 using eCommerce.Library.DTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,7 @@ namespace eCommerce.MAUI.ViewModels
     {
         public ShopViewModel() {
             InventoryQuery = string.Empty;
+            SelectedCart = Carts.FirstOrDefault();
         }
 
         private string inventoryQuery;
@@ -37,9 +39,9 @@ namespace eCommerce.MAUI.ViewModels
             }
         }
 
-        private ShoppingCart selectedCart;
+        private ShoppingCart? selectedCart;
 
-        public ShoppingCart SelectedCart
+        public ShoppingCart? SelectedCart
         {
             get
             {
@@ -53,11 +55,11 @@ namespace eCommerce.MAUI.ViewModels
             }
         }
 
-        public List<ShoppingCart> Carts
+        public ObservableCollection<ShoppingCart> Carts
         {
             get
             {
-                return ShoppingCartServiceProxy.Current.Carts;
+                return new ObservableCollection<ShoppingCart>(ShoppingCartServiceProxy.Current.Carts);
             }
         }
 
@@ -97,6 +99,7 @@ namespace eCommerce.MAUI.ViewModels
         {
             InventoryQuery = string.Empty;
             NotifyPropertyChanged(nameof(Products));
+            NotifyPropertyChanged(nameof(Carts));
         }
 
         public void Search()
