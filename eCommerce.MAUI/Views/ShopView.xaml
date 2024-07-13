@@ -61,7 +61,12 @@
                 </ListView>
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1">
-                 <!--Cart--> 
+                <VerticalStackLayout>
+                 <!--Cart-->
+                <Picker
+                    ItemsSource="{Binding Carts}"
+                    SelectedItem="{Binding SelectedCart}"
+                    />
                 <ListView
                     ItemsSource="{Binding ProductsInCart}"
                     >
@@ -85,6 +90,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                </VerticalStackLayout>
             </Grid>
             <Grid Grid.Row="1">
                 <Label Text=""/>
