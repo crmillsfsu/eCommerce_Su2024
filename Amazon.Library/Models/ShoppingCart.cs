@@ -9,11 +9,17 @@ namespace Amazon.Library.Models
 {
     public class ShoppingCart
     {
-        int Id { get; set; }
+        public int Id { get; set; }
         public List<ProductDTO>? Contents { get; set; }
+        public string Name { get; set; }
 
         public ShoppingCart() { 
             Contents = new List<ProductDTO>();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

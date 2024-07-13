@@ -3,6 +3,7 @@ using Amazon.Library.Services;
 using eCommerce.Library.DTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,7 @@ namespace eCommerce.MAUI.ViewModels
     {
         public ShopViewModel() {
             InventoryQuery = string.Empty;
+            SelectedCart = Carts.FirstOrDefault();
         }
 
         private string inventoryQuery;
@@ -37,11 +39,35 @@ namespace eCommerce.MAUI.ViewModels
             }
         }
 
+        private ShoppingCart? selectedCart;
+
+        public ShoppingCart? SelectedCart
+        {
+            get
+            {
+                return selectedCart;
+            }
+
+            set
+            {
+                selectedCart = value;
+                NotifyPropertyChanged(nameof(ProductsInCart));
+            }
+        }
+
+        public ObservableCollection<ShoppingCart> Carts
+        {
+            get
+            {
+                return new ObservableCollection<ShoppingCart>(ShoppingCartServiceProxy.Current.Carts);
+            }
+        }
+
         public List<ProductViewModel> ProductsInCart
         {
             get
             {
-                return ShoppingCartServiceProxy.Current?.Cart?.Contents?.Where(p => p != null)
+                return SelectedCart?.Contents?.Where(p => p != null)
                     .Where(p => p?.Name?.ToUpper()?.Contains(InventoryQuery.ToUpper()) ?? false)
                     .Select(p => new ProductViewModel(p)).ToList()
                     ?? new List<ProductViewModel>();
@@ -64,22 +90,16 @@ namespace eCommerce.MAUI.ViewModels
                     productToBuy.Model = new ProductDTO(productToBuy.Model);
                 }
 
-                //NotifyPropertyChanged();
             }
         }
 
-        public ShoppingCart Cart { 
-            get
-            {
-                return ShoppingCartServiceProxy.Current.Cart;
-            }
-        }
 
 
         public void Refresh()
         {
             InventoryQuery = string.Empty;
             NotifyPropertyChanged(nameof(Products));
+            NotifyPropertyChanged(nameof(Carts));
         }
 
         public void Search()
@@ -95,7 +115,7 @@ namespace eCommerce.MAUI.ViewModels
             }
             //ProductToBuy.Model = new Product(ProductToBuy.Model);
             ProductToBuy.Model.Quantity = 1;
-            ShoppingCartServiceProxy.Current.AddToCart(ProductToBuy.Model);
+            ShoppingCartServiceProxy.Current.AddToCart(ProductToBuy.Model, SelectedCart.Id);
 
             ProductToBuy = null;
             NotifyPropertyChanged(nameof(ProductsInCart));
