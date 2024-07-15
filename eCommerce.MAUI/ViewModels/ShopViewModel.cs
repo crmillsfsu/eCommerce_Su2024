@@ -32,7 +32,9 @@ namespace eCommerce.MAUI.ViewModels
         {
             get
             {
-                return InventoryServiceProxy.Current.Products.Where(p => p != null)
+                return InventoryServiceProxy.Current.Products
+                    .Where(p => p != null)
+                    .Where(p => p.Quantity > 0)
                     .Where(p => p?.Name?.ToUpper()?.Contains(InventoryQuery.ToUpper()) ?? false)
                     .Select(p => new ProductViewModel(p)).ToList()
                     ?? new List<ProductViewModel>();

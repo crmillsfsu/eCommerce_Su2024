@@ -13,12 +13,12 @@ namespace eCommerce.API.EC
 
         public async Task<IEnumerable<ProductDTO>> Get()
         {
-            return FakeDatabase.Products.Take(100).Select(p => new ProductDTO(p));
+            return Filebase.Current.Products.Take(100).Select(p => new ProductDTO(p));
         }
 
         public async Task<IEnumerable<ProductDTO>> Search(string? query)
         {
-            return FakeDatabase.Products.Where(p => 
+            return Filebase.Current.Products.Where(p => 
             (p?.Name != null && p.Name.ToUpper().Contains(query?.ToUpper() ?? string.Empty) )
                 || 
             (p?.Description != null && p.Description.ToUpper().Contains(query?.ToUpper() ?? string.Empty)))
@@ -27,19 +27,21 @@ namespace eCommerce.API.EC
 
         public async Task<ProductDTO?> Delete(int id)
         {
-            var itemToDelete = FakeDatabase.Products.FirstOrDefault(p => p.Id == id);
+            return new ProductDTO(Filebase.Current.Delete(id));
+                
+                /*Products.FirstOrDefault(p => p.Id == id);
             if (itemToDelete == null)
             {
                 return null;
             }
 
             FakeDatabase.Products.Remove(itemToDelete);
-            return new ProductDTO(itemToDelete);
+            return new ProductDTO(itemToDelete);*/
         }
 
         public async Task<ProductDTO> AddOrUpdate(ProductDTO p)
         {
-            bool isAdd = false;
+            /*bool isAdd = false;
             if (p.Id == 0)
             {
                 isAdd = true;
@@ -59,9 +61,9 @@ namespace eCommerce.API.EC
                     prodToUpdate = new Product(p);
                     FakeDatabase.Products.Insert(index, prodToUpdate);
                 }
-            }
+            }*/
 
-            return p;
+            return new ProductDTO(Filebase.Current.AddOrUpdate(new Product(p)));
             
         }
     }
