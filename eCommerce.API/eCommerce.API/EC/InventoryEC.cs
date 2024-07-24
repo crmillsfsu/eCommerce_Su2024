@@ -63,7 +63,9 @@ namespace eCommerce.API.EC
                 }
             }*/
 
-            return new ProductDTO(Filebase.Current.AddOrUpdate(new Product(p)));
+            //return new ProductDTO(Filebase.Current.AddOrUpdate(new Product(p)));
+
+            return new ProductDTO(new MSSQLContext().AddProduct(new Product(p)));
             
         }
     }
