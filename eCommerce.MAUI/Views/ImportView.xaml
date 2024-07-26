@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="eCommerce.MAUI.Views.ImportView"
+             Title="ImportView">
+    <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Label 
+            Text="Import Filepath:"/>
+            <Entry Text="{Binding FilePath}" />
+            <Button Text="..."
+                    Clicked="FileBrowseClicked"/>
+        </HorizontalStackLayout>
+
+        <Button Text="Import"
+            Clicked="ImportClicked"/>
+        <Button Text="Cancel"
+                Clicked="CancelClicked"/>
+    </VerticalStackLayout>
+</ContentPage>

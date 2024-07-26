@@ -40,5 +40,41 @@ namespace eCommerce.API.Database
 
             return p;
         }
+    
+        public List<Product> GetProducts()
+        {
+            var products = new List<Product>();
+            using (SqlConnection conn = new SqlConnection("Server=CMILLS;Database=Amazon;Trusted_Connection=yes;TrustServerCertificate=True"))
+            {
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    var sql = $"SELECT Id, REPLACE(name, '''','') as Name, Price, Quantity FROM PRODUCT";
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql ;
+
+                    try
+                    {
+                        conn.Open();
+                        var reader = cmd.ExecuteReader();
+
+                        while(reader.Read())
+                        {
+                            products.Add(new Product
+                            {
+                                Id = (int)reader["Id"],
+                                Name = reader["Name"].ToString(),
+                                Price = (decimal)reader["Price"],
+                                Quantity = (int)reader["Quantity"]
+                            });
+                            
+                        }
+                        conn.Close();
+                    } catch(Exception ex) { 
+                    }
+                }
+            }
+
+            return products;
+        }
     }
 }

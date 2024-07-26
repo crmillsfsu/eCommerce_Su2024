@@ -47,6 +47,11 @@ namespace eCommerce.MAUI.ViewModels
             Refresh();
         }
 
+        public async void Import()
+        {
+            Shell.Current.GoToAsync("//Import");
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

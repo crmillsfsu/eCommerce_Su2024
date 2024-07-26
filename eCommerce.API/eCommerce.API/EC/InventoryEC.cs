@@ -13,7 +13,7 @@ namespace eCommerce.API.EC
 
         public async Task<IEnumerable<ProductDTO>> Get()
         {
-            return Filebase.Current.Products.Take(100).Select(p => new ProductDTO(p));
+            return new MSSQLContext().GetProducts().Select(p => new ProductDTO(p));
         }
 
         public async Task<IEnumerable<ProductDTO>> Search(string? query)
